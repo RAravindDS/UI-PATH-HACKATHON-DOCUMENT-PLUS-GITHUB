@@ -31,16 +31,18 @@ def load_models():
 
 def reset(folder_path):
     st.session_state = {}
-    files = os.listdir(folder_path)
+    if folder_path!= "":
+        
+        files = os.listdir(folder_path)
 
-    # Iterate through the files and delete them
-    for file in files:
-        file_path = os.path.join(folder_path, file)
-        try:
-            if os.path.isfile(file_path):
-                os.unlink(file_path)
-        except Exception as e:
-            print(f"Error deleting file {file_path}: {e}")
+        # Iterate through the files and delete them
+        for file in files:
+            file_path = os.path.join(folder_path, file)
+            try:
+                if os.path.isfile(file_path):
+                    os.unlink(file_path)
+            except Exception as e:
+                print(f"Error deleting file {file_path}: {e}")
 
 # Function to define the Home page
 def home():
@@ -48,9 +50,6 @@ def home():
     st.subheader(
         "Hola! 👋"
     )
-    # Streamlit app
-    st.write("PDF Uploader")
-
     # Upload PDF file
     uploaded_file = st.file_uploader("Upload a PDF file", type=["pdf"])
     # Process the uploaded file
@@ -72,7 +71,7 @@ def home():
     
     reset_button = st.button("Reset")
     if reset_button:
-        reset()
+        reset("")
 
 # Function to define the Asbout page
 def Text2Graph():
@@ -90,7 +89,7 @@ def Text2Graph():
         st.write(output)
     reset_button = st.button("Reset")
     if reset_button:
-        reset()
+        reset("")
 # Function to define the Asbout page
 def graph_chat():
     st.title("📄 Graph Chat")
@@ -98,26 +97,28 @@ def graph_chat():
         "Talk to your graph/chart! 📊"
     )
     # Path to the folder containing images
-    images_folder = "/workspaces/UI-PATH-HACKATHON-DOCUMENT-PLUS-GITHUB/src/image_output"
+    images_folder = "image_output"
     image_files = [os.path.join(images_folder, i) for i in os.listdir(images_folder)]
+    if len(image_files)==0:
+        st.write("Please upload a PDF with images")
+    else:
+        selected_image = image_select(
+            label="Select a option",
+            images=[np.array(Image.open(i)) for i in image_files], return_value="index"
+        )
+        st.image(image_files[selected_image],width=500)
+        query = st.text_input("Enter your query")
+        button_clicked = st.button("Submit")
 
-    selected_image = image_select(
-        label="Select a option",
-        images=[np.array(Image.open(i)) for i in image_files], return_value="index"
-    )
-    st.image(image_files[selected_image],width=500)
-    query = st.text_input("Enter your query")
-    button_clicked = st.button("Submit")
 
-
-    # Check if the button is clicked
-    if button_clicked:
-        data_table = generate_table(image_files[selected_image], st.session_state['model'], st.session_state['processor'])
-        out = process_query(data_table, query)
-        st.write(out)
-    reset_button = st.button("Reset")
-    if reset_button:
-        reset()
+        # Check if the button is clicked
+        if button_clicked:
+            data_table = generate_table(image_files[selected_image], st.session_state['model'], st.session_state['processor'])
+            out = process_query(data_table, query)
+            st.write(out)
+        reset_button = st.button("Reset")
+        if reset_button:
+            reset(images_folder)
 
 def table_chat():
     st.title("📄 Table Chat")
@@ -125,24 +126,26 @@ def table_chat():
         "Talk to your table! 💻"
     )
     # Path to the folder containing images
-    images_folder = "/workspaces/UI-PATH-HACKATHON-DOCUMENT-PLUS-GITHUB/src/table_output"
+    images_folder = "table_output"
     image_files = [os.path.join(images_folder, i) for i in os.listdir(images_folder)]
-
-    selected_image_idx = image_select( 
-        label="Select a option",
-        images=[np.array(Image.open(i)) for i in image_files],return_value="index")
-    st.image(image_files[selected_image_idx],width=500)
-    query = st.text_input("Query the database")
-    # Create a simple button
-    button_clicked = st.button("Submit")
-    #st.success(st.session_state['tables'][0])
-    # Check if the button is clicked
-    if button_clicked:
-        output = query_llm(st.session_state['tables'][selected_image_idx],query)
-        st.write(output)
-    reset_button = st.button("Reset")
-    if reset_button:
-        reset()
+    if len(image_files)==0:
+        st.write("Please upload a PDF with images")
+    else:
+        selected_image_idx = image_select( 
+            label="Select a option",
+            images=[np.array(Image.open(i)) for i in image_files],return_value="index")
+        st.image(image_files[selected_image_idx],width=500)
+        query = st.text_input("Query the database")
+        # Create a simple button
+        button_clicked = st.button("Submit")
+        #st.success(st.session_state['tables'][0])
+        # Check if the button is clicked
+        if button_clicked:
+            output = query_llm(st.session_state['tables'][selected_image_idx],query)
+            st.write(output)
+        reset_button = st.button("Reset")
+        if reset_button:
+            reset("table_output")
     
 
 # Function to create a navigation sidebar with beautifications
@@ -183,7 +186,7 @@ def main():
     st.set_page_config(
         page_title="UiPath Multi-Purpose app",
         page_icon="✨",
-        layout="wide",
+        #layout="wide",
         initial_sidebar_state="expanded",
     )
 
