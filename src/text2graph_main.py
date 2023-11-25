@@ -3,7 +3,7 @@
 """ 
 How to use? 
 ```python 
-from text2graph_utils import * 
+from text2graph_main import * 
 graph = create_graph_database("2.pdf")
 
 query = "ask your question"

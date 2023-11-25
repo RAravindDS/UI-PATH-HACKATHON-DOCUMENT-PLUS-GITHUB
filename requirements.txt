@@ -7,3 +7,9 @@ python-dotenv
 openai
 neo4j 
 pypdf
+streamlit
+Pillow
+transformers
+streamlit-extras
+torch
+tokenizers
