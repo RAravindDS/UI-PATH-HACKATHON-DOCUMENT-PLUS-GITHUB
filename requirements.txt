@@ -15,3 +15,5 @@ torch
 tokenizers
 replicate
 azure-ai-formrecognizer
+streamlit-image-select
+pypdfium2
