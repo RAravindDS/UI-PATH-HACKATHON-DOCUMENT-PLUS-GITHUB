@@ -3,23 +3,39 @@ from pdf2html import *
 from text2graph_main import *
 from text2graph_utils import *
 from table_query import * 
+from graph_chat import *
 from concurrent.futures import ThreadPoolExecutor
 from streamlit_image_select import image_select
 import numpy as np
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def load_functions(path_in):
     with ThreadPoolExecutor() as executor:
         future_graph = executor.submit(create_graph_database, path_in)
         future_tables = executor.submit(AzureReadModule, give_byte_arr(path_in))
         #future_images = executor.submit(get_images_from_pdf, path_in, "out/")
+        
 
         # Wait for all tasks to complete
         graph_result = future_graph.result()
         tables_result = future_tables.result()
         #images_result = future_images.result()
+    model, processor = load_model()
 
-    return graph_result, tables_result#, images_result
+    return graph_result, tables_result,model, processor#, images_result
+
+def reset(folder_path):
+    st.session_state = {}
+    files = os.listdir(folder_path)
+
+    # Iterate through the files and delete them
+    for file in files:
+        file_path = os.path.join(folder_path, file)
+        try:
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
+        except Exception as e:
+            print(f"Error deleting file {file_path}: {e}")
 
 # Function to define the Home page
 def home():
@@ -37,17 +53,20 @@ def home():
         # st.subheader("Uploaded PDF Contents:")
         path_in = uploaded_file.name
         with st.spinner("Parsing Pdf..."):
-            graph,tables = load_functions(path_in)
+            graph,tables,model, processor = load_functions(path_in)
             if 'graph' not in st.session_state:
                 st.session_state['graph'] = graph
             if 'tables' not in st.session_state:
                 st.session_state['tables'] = tables
+            if 'model' not in st.session_state:
+                st.session_state['model'] = model
+            if 'processor' not in st.session_state:
+                st.session_state['processor'] = processor
             st.success("PDF Loaded")
     
     reset_button = st.button("Reset")
     if reset_button:
-        st.session_state = {}
-
+        reset()
 
 # Function to define the Asbout page
 def Text2Graph():
@@ -63,7 +82,9 @@ def Text2Graph():
     if button_clicked:
         output = query_graph_database(st.session_state['graph'], query)
         st.write(output)
-
+    reset_button = st.button("Reset")
+    if reset_button:
+        reset()
 # Function to define the Asbout page
 def graph_chat():
     st.title("📄 Graph Chat")
@@ -76,12 +97,24 @@ def graph_chat():
 
     selected_image = image_select(
         label="Select a option",
-        images=[np.array(Image.open(i)) for i in image_files]
+        images=[np.array(Image.open(i)) for i in image_files], return_value="index"
     )
-    st.image(selected_image,width=500)
+    st.image(image_files[selected_image],width=500)
+    query = st.text_input("Enter your query")
+    button_clicked = st.button("Submit")
+
+
+    # Check if the button is clicked
+    if button_clicked:
+        data_table = generate_table(image_files[selected_image], st.session_state['model'], st.session_state['processor'])
+        out = process_query(data_table, query)
+        st.write(out)
+    reset_button = st.button("Reset")
+    if reset_button:
+        reset()
 
 def table_chat():
-    st.title("📄 Graph Chat")
+    st.title("📄 Table Chat")
     st.subheader(
         "Talk to your table! 💻."
     )
@@ -93,8 +126,6 @@ def table_chat():
         label="Select a option",
         images=[np.array(Image.open(i)) for i in image_files],return_value="index")
     st.image(image_files[selected_image_idx],width=500)
-
-    st.success(selected_image_idx)
     query = st.text_input("Query the database")
     # Create a simple button
     button_clicked = st.button("Submit")
@@ -103,11 +134,14 @@ def table_chat():
     if button_clicked:
         output = query_llm(st.session_state['tables'][selected_image_idx],query)
         st.write(output)
+    reset_button = st.button("Reset")
+    if reset_button:
+        reset()
     
 
 # Function to create a navigation sidebar with beautifications
 def navigation():
-    st.sidebar.title("🚀 Ui Path")
+    st.sidebar.title("🚀 Infinite exploration")
     selected_page = st.sidebar.selectbox("Select a page", ["Home", "Text2Graph","Graph Chat","Table Chat"])
     # Sidebar options that are always visible
     
