@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # PDFInsightHub
 Problem statement 2 - RepoReel
 
@@ -29,3 +30,9 @@ Problem statement 2 - RepoReel
 -  Data Precision: Get precise answers from your document's structured tables.
 
 
+=======
+# UI-PATH-HACKATHON
+# ..
+## DOC(UNDERSTANDING) + REPO VIDEO
+This repo contains the codebase of the UI-PATH-HACKATHON. 
+>>>>>>> 43e3466 (final changes)
