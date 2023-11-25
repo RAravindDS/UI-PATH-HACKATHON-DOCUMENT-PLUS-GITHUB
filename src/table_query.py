@@ -5,22 +5,11 @@ from PIL import Image
 import replicate
 from dotenv import load_dotenv
 import pypdfium2 as pdfium
-
-
-load_dotenv()
-
-replicate = replicate.Client(api_token='r8_3Bap3zElUszqMy6QwIVRIF1zkWg6LUZ47Qbka') #replace with environment variable
-from azure.ai.formrecognizer import DocumentAnalysisClient
-from azure.core.credentials import AzureKeyCredential
-import io
-from PIL import Image
-import replicate
-from dotenv import load_dotenv
-
+import os
 
 load_dotenv()
 
-replicate = replicate.Client(api_token='r8_3Bap3zElUszqMy6QwIVRIF1zkWg6LUZ47Qbka') #replace with environment variable
+replicate = replicate.Client(api_token= os.environ['REPLICATE']) #replace with environment variable
 def give_byte_arr(image_link:str):
     try:
         img = Image.open(image_link).convert('RGB')
@@ -79,7 +68,8 @@ def AzureReadModule(filename):
 def query_llm(table,query):
     prompt = f"""<|system|>\n You are an analyst who mainly deals with structured data. \
                 Analyze the table according to the user query and give a correct, easy-to-understand, concise output.
-                You will be given a table json and a user query, you should answer complex queries also by finding patterns in the rows and columns.</s>
+                You will be given a table json and a user query, you should answer complex queries also by finding patterns in the rows and columns. \
+                Be consice and confident while giving answers.</s>
                 <|user|>
                 {table} \
 

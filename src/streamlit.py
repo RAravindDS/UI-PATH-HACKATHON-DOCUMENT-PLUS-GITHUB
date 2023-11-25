@@ -56,7 +56,7 @@ def home():
     if uploaded_file is not None:
         # st.subheader("Uploaded PDF Contents:")
         path_in = uploaded_file.name
-        with st.spinner("Parsing Pdf..."):
+        with st.spinner("Parsing Pdf...Gentle reminder: Stay hydrated 🥛"):
             graph,tables = load_functions(path_in)
             model, processor = load_models()
             if 'graph' not in st.session_state:
@@ -138,7 +138,7 @@ def table_chat():
         query = st.text_input("Query the database")
         # Create a simple button
         button_clicked = st.button("Submit")
-        #st.success(st.session_state['tables'][0])
+
         # Check if the button is clicked
         if button_clicked:
             output = query_llm(st.session_state['tables'][selected_image_idx],query)
@@ -152,25 +152,7 @@ def table_chat():
 def navigation():
     st.sidebar.title("🚀 Infinite exploration")
     selected_page = st.sidebar.selectbox("Select a page", ["Home", "Text2Graph","Graph Chat","Table Chat"])
-    # Sidebar options that are always visible
-    
-    #home_ = st.sidebar.button("Home")
-    #home()
-    # Conditionally show additional options based on the condition
-    # if 'graph' in st.session_state:
-    #     text2graph = st.sidebar.button("Text2Graph")
-    #     graphchat =st.sidebar.button("Graph Chat")
-    #     tablechat =st.sidebar.button("Table Chat")
-    #     if text2graph:
-    #         Text2Graph()
-    #     elif graphchat:
-    #         graph_chat()
-    #     elif tablechat:
-    #         table_chat()
-    
-    #     elif home_:
-    #         home()
-    # Display content based on selected page
+
     if selected_page == "Home":
         home()
     elif selected_page == "Text2Graph":
