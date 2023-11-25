@@ -62,7 +62,7 @@ def query_graph_database(graph, query):
         verbose=True
     )
 
-    return cypher_chain.run("When was Walter Elias Disney born?")
+    return cypher_chain.run(query)
 
 
 

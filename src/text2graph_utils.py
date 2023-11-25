@@ -29,14 +29,14 @@ from langchain.chains.openai_functions import (
 
 ### LODING ALL THE ENVIRONMENT VAIRABLES ### 
 load_dotenv()
-url = "bolt://18.204.43.47:7687"
-username ="neo4j"
-password = "transiting-stone-person"
+# url = "bolt://54.208.99.143:7687"
+# username ="neo4j"
+# password = "moss-eggs-firearm"
 
 graph = Neo4jGraph(
-    url=url,
-    username=username,
-    password=password
+    url=os.environ['NEO4J_URI'],
+    username=os.environ['NEO4J_USERNAME'],
+    password=os.environ['NEO4J_PASSWORD']
 )
 llm = ChatOpenAI(model="gpt-3.5-turbo-16k", temperature=0)
 
