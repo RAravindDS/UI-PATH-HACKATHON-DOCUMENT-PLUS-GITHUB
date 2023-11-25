@@ -13,3 +13,5 @@ transformers
 streamlit-extras
 torch
 tokenizers
+replicate
+azure-ai-formrecognizer
