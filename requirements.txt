@@ -1,2 +1,9 @@
 PyMuPdf
 ensure 
+langchain
+dotenv
+tiktoken 
+python-dotenv
+openai
+neo4j 
+pypdf

@@ -1,0 +1,4 @@
+replicate
+azure-ai-formrecognizer
+#azure-ai-formrecognizer --pre --upgrade
+pillow
