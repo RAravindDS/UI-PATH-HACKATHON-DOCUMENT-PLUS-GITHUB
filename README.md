@@ -3,7 +3,7 @@
 ## Aim for the project - 
 *Adding features to the Ui Path Document Understanding*
 
-**The goal of this project is to make it easy for users to explore and analyze both structured and unstructured data. We aim to provide a user-friendly tool that simplifies data understanding, helping users make informed decisions and gain insights effortlessly.**
+**Developers can do complex queries to graph, text and tables. The goal of this project is to make it easy for users to explore and analyze both structured and unstructured data. We aim to provide a user-friendly tool that simplifies data understanding, helping users make informed decisions and gain insights effortlessly.**
 
 ## Architecture
 
