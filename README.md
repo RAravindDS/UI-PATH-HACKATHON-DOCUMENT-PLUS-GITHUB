@@ -5,6 +5,50 @@
 
 **The goal of this project is to make it easy for users to explore and analyze both structured and unstructured data. We aim to provide a user-friendly tool that simplifies data understanding, helping users make informed decisions and gain insights effortlessly.**
 
+## Architecture
+
+**Credit goes to RepoReel**❤️
+#### Overall Workflow
+```
+  ┌─────────────────┐         ┌─────────────────┐          ┌─────────────────┐
+  │                 │         │                 │          │    imgs_pdfs    │
+  │ User/Developer  │────────►│    UI-PATH      │─────────►│(Sample Data for │
+  │                 │  Set up │   HACKATHON     │ Process  │ processing and  │
+  └─────────────────┘         │   DOCUMENT      │   and    │     analysis)   │
+                              │     PLUS        │ Analyze  └─────────────────┘
+ ┌─────────────────┐          │   GITHUB App    │          ┌─────────────────┐
+ │.gitignore & .env│          │                 │          │    research     │
+ ├─────────────────┤          └─────────────────┘          │(Research scripts,│
+ │Requirements.txt │                                       │ notes, data etc.)│
+ └─────────────────┘                                       └─────────────────┘
+(Setup and config  )                                       
+(files)                                                      
+```
+#### Folder structure 
+```
+
+
+                            [ Repository: UI-PATH-HACKATHON-DOCUMENT-PLUS-GITHUB ]
+                                        /
+                      .---------------------------------------------------------.
+                      |                    |                    |               |
+                  [ App 1 ]            [ App 2 ]            [ App 3 ]       [ Shared ]
+                      |                    |                    |            Resources
+                      |                    |                    |               |
+      .-------------------------.  .-------------------------.  .-------------------------.
+      | - .env                  |  | - .env                  |  | - .env                  |
+      | - requirements.txt      |  | - requirements.txt      |  | - requirements.txt      |
+      | - App-specific src      |  | - App-specific src      |  | - App-specific src      |
+      | - Documentation         |  | - Documentation         |  | - Documentation         |
+      | - imgs_pdfs (if used)   |  | - imgs_pdfs (if used)   |  | - imgs_pdfs (if used)   |
+      | - research (if used)    |  | - research (if used)    |  | - research (if used)    |
+      '-------------------------'  '-------------------------'  '-------------------------'
+
+Legend: [ ] - Component
+        -   - Component's sub-items
+
+```
+
 ## Key features
 
 **1.Knowledge Graph Generator:**
