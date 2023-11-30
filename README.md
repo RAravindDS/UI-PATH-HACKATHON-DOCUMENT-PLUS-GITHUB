@@ -51,21 +51,21 @@ Legend: [ ] - Component
 
 ## Key features
 
-**1.Knowledge Graph Generator:**
+**1.Knowledge Graph :**
 
 -  Upload PDFs: Seamlessly upload your PDF documents.
 -  Dynamic Knowledge Graphs: Watch as the app converts document content into dynamic knowledge graphs.
 -  Query Engine: Ask complex questions and receive insights from the structured knowledge.
 
   
-.**2.Graph Extractor:**
+.**2.Graph Query:**
 
 -  Graphical Data Extraction: Identify and extract all graphs and charts from your documents.
 -  Interactive Exploration: Query and analyze graphical data with ease.
 -  Visual Insights: Gain valuable insights from your data visualizations.
 
   
-.**3.Table Extractor:**
+.**3.Table Query:**
 
 -  Table Recognition: Extract and organize tabular data from PDFs.
 -  Effortless Queries: Seamlessly query and filter tabular information.
